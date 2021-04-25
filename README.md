@@ -1,6 +1,10 @@
-# Vue 3 + Typescript + Vite
+# Oculus Applab Page
 
-This template should help get you started developing with Vue 3 and Typescript in Vite.
+A demo site powered by [vue3](https://vuejs.org/) and [pages.dev](https://pages.dev)
+
+Demo page: [https://applab.pages.dev](https://applab.pages.dev)
+
+API comes from：[https://github.com/SideQuestVR/AppLabGames](https://github.com/SideQuestVR/AppLabGames)
 
 ## Recommended IDE Setup
 
