@@ -92,7 +92,7 @@ export default {
           } else if (props.orderType === 'releaseData') {
             const releaseDataA = a.created
             const releaseDataB = b.created
-            return releaseDataA < releaseDataB ? -1 : 1
+            return releaseDataA > releaseDataB ? -1 : 1
           }
           return 0
         })
