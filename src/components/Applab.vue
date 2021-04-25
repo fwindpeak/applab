@@ -20,7 +20,7 @@
 
 <script lang="ts">
 import { fetchApplabList } from '../apis/index'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 
 interface SideQuestApplabItem {
   apps_id: number
@@ -52,12 +52,50 @@ interface SideQuestApplabItem {
 }
 
 export default {
-  setup() {
-    let applabList = ref<SideQuestApplabItem[]>([])
+  props: {
+    keywords: {
+      type: String,
+      default: ''
+    },
+    dataType: {
+      type: String,
+      default: ''
+    },
+    orderType: {
+      type: String,
+      default: ''
+    }
+  },
+  setup(props) {
+    const applabListAll = ref<SideQuestApplabItem[]>([])
     const loaded = ref<boolean>(false)
     onMounted(async () => {
-      applabList.value = (await fetchApplabList()).data
+      applabListAll.value = (await fetchApplabList()).data
       loaded.value = true
+    })
+
+    const applabList = computed(() => {
+      console.log('props.dataType', props.dataType)
+      return applabListAll.value
+        .filter((item) => {
+          const name = item.name.toLowerCase()
+          return name.indexOf(props.keywords.toLowerCase()) !== -1
+        })
+        .filter((item) => {
+          return !props.dataType || item.license === props.dataType
+        })
+        .sort((a, b) => {
+          if (props.orderType === 'name') {
+            const nameA = a.name.toLowerCase()
+            const nameB = b.name.toLowerCase()
+            return nameA < nameB ? -1 : 1
+          } else if (props.orderType === 'releaseData') {
+            const releaseDataA = a.created
+            const releaseDataB = b.created
+            return releaseDataA < releaseDataB ? -1 : 1
+          }
+          return 0
+        })
     })
     return {
       loaded,

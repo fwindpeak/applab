@@ -49,19 +49,21 @@ export default defineComponent({
       finished: false,
       orderType: 'releaseData',
       dataTypeList: [
-        { text: 'All', value: 'all' },
-        { text: 'Free', value: 'free' },
-        { text: 'Paid', value: 'paid' },
-        { text: 'Discount', value: 'discount' }
+        { text: 'All', value: '' },
+        { text: 'Free', value: 'FREE' },
+        { text: 'Paid', value: 'PAID' },
+        { text: 'Prerelease', value: 'PRERELEASE' },
+        { text: 'PaidPrerelease', value: 'PAIDPRERELEASE' },
+        { text: 'Demo', value: 'DEMO' }
       ]
     }
   },
   setup() {
-    const dataType = ref<string>('all')
+    const dataType = ref<string>('')
     const orderTypeListAll = [
       { text: 'ReleaseData', value: 'releaseData' },
-      { text: 'Name', value: 'name' },
-      { text: 'Price', value: 'price' }
+      { text: 'Name', value: 'name' }
+      // { text: 'Price', value: 'price' }
     ]
     const orderTypeList = computed(() => {
       if (dataType.value === 'free') {
