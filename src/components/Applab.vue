@@ -7,6 +7,8 @@
       :title="item.name"
       :thumb-link="item.oculus_url"
       :thumb="item.image_url"
+      @click="onCardClicked(item)"
+      class="item-card"
     >
       <template #tags>
         <van-tag plain type="danger">{{ item.license }}</van-tag>
@@ -97,12 +99,20 @@ export default {
           return 0
         })
     })
+
     return {
       loaded,
-      applabList
+      applabList,
+      onCardClicked: (item: SideQuestApplabItem) => {
+        window.open(item.oculus_url)
+      }
     }
   }
 }
 </script>
 
-<style></style>
+<style>
+.item-card {
+  cursor: pointer;
+}
+</style>
