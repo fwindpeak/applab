@@ -1,21 +1,21 @@
 <template>
-  <van-card
-    v-for="item of applabList"
-    :key="item.apps_id"
-    :num="item.number_of_rating"
-    :desc="item.created"
-    :title="item.name"
-    :thumb-link="item.oculus_url"
-    :thumb="item.image_url"
-  >
-    <template #tags>
-      <van-tag plain type="danger">{{ item.license }}</van-tag>
-    </template>
-    <!-- <template #footer>
-      <van-button size="mini">按钮</van-button>
-      <van-button size="mini">按钮</van-button>
-    </template> -->
-  </van-card>
+  <div v-if="loaded">
+    <van-card
+      v-for="item of applabList"
+      :key="item.apps_id"
+      :desc="item.created"
+      :title="item.name"
+      :thumb-link="item.oculus_url"
+      :thumb="item.image_url"
+    >
+      <template #tags>
+        <van-tag plain type="danger">{{ item.license }}</van-tag>
+      </template>
+    </van-card>
+  </div>
+  <div v-else>
+    <van-skeleton v-for="index of 6" :key="index" title avatar :row="3" />
+  </div>
 </template>
 
 <script lang="ts">
@@ -54,10 +54,13 @@ interface SideQuestApplabItem {
 export default {
   setup() {
     let applabList = ref<SideQuestApplabItem[]>([])
+    const loaded = ref<boolean>(false)
     onMounted(async () => {
       applabList.value = (await fetchApplabList()).data
+      loaded.value = true
     })
     return {
+      loaded,
       applabList
     }
   }
