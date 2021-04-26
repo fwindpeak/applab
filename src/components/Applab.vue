@@ -66,7 +66,7 @@ export default {
       default: ''
     }
   },
-  setup(props) {
+  setup(props: { keywords: string; dataType: String; orderType: String }) {
     const applabListAll = ref<SideQuestApplabItem[]>([])
     const loaded = ref<boolean>(false)
     onMounted(async () => {
