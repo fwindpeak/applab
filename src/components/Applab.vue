@@ -3,7 +3,9 @@
     <van-card
       v-for="item of applabList"
       :key="item.apps_id"
-      :desc="item.created"
+      :desc="
+        item.created ? item.created.replace('T', ' ').replace('.000Z', '') : ''
+      "
       :title="item.name"
       :thumb-link="item.oculus_url"
       :thumb="item.image_url"
@@ -12,6 +14,21 @@
     >
       <template #tags>
         <van-tag plain type="danger">{{ item.license }}</van-tag>
+      </template>
+      <template #bottom>
+        <van-row gutter="10" type="flex">
+          <van-col>
+            <van-rate
+              v-model="item.sort_rating_num"
+              allow-half
+              readonly
+              color="#ffd21e"
+            ></van-rate>
+          </van-col>
+          <van-col>
+            <span class="rating-count">{{ item.downloads }} downloads</span>
+          </van-col>
+        </van-row>
       </template>
     </van-card>
   </div>
@@ -45,6 +62,7 @@ interface SideQuestApplabItem {
   license: string
   downloads: string
   sort_rating: string
+  sort_rating_num: number
   number_of_rating: string
   num_reviews: string
   is_app_lab: boolean
@@ -98,14 +116,19 @@ export default {
           }
           return 0
         })
+        .map((item) => ({
+          ...item,
+          sort_rating_num: parseInt(item.sort_rating)
+        }))
     })
-
+    const rr = ref(2.5)
     return {
       loaded,
       applabList,
       onCardClicked: (item: SideQuestApplabItem) => {
-        window.open(item.oculus_url)
-      }
+        window.open(item.oculus_url, '_blank')
+      },
+      rr
     }
   }
 }
