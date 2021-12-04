@@ -1,6 +1,6 @@
 # Oculus Applab Page
 
-A demo site powered by [vue3](https://vuejs.org/) and [pages.dev](https://pages.dev)
+A Simple site powered by [vue3](https://vuejs.org/) and [pages.dev](https://pages.dev)
 
 Demo page: [https://applab.pages.dev](https://applab.pages.dev)
 
