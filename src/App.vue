@@ -62,7 +62,8 @@ export default defineComponent({
     const dataType = ref<string>('')
     const orderTypeListAll = [
       { text: 'ReleaseData', value: 'releaseData' },
-      { text: 'Name', value: 'name' }
+      { text: 'Name', value: 'name' },
+      { text: 'Downloads', value: 'downloads' },
       // { text: 'Price', value: 'price' }
     ]
     const orderTypeList = computed(() => {

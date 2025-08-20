@@ -4,7 +4,7 @@
       v-for="item of applabList"
       :key="item.apps_id"
       :desc="
-        item.created ? item.created.replace('T', ' ').replace('.000Z', '') : ''
+        item.summary 
       "
       :title="item.name"
       :thumb-link="item.oculus_url"
@@ -13,8 +13,11 @@
       class="item-card"
     >
       <template #tags>
-        <van-tag plain type="danger">{{ item.license }}</van-tag>
-      </template>
+        <div>
+            <van-tag>{{ timeStampToDate(item.created) }}</van-tag>
+            <van-tag plain :type="item.license === 'FREE' ? 'primary' : 'danger'">{{ item.license }}</van-tag>
+        </div>
+       </template>
       <template #bottom>
         <van-row gutter="10" type="flex">
           <van-col>
@@ -94,6 +97,24 @@ export default {
       loaded.value = true
     })
 
+    const timeStampToDate = (timeStamp: string) => {
+      const date = new Date(timeStamp)
+      const year = date.getFullYear()
+      const month = date.getMonth() + 1
+      const day = date.getDate()
+      return `${year}-${month}-${day}`
+    }
+    const timeStampToDateTimeWithTime = (timeStamp: string) => {
+      const date = new Date(timeStamp)
+      const year = date.getFullYear()
+      const month = date.getMonth() + 1
+      const day = date.getDate()
+      const hour = date.getHours()
+      const minute = date.getMinutes()
+      const second = date.getSeconds()
+      return `${year}-${month}-${day} ${hour}:${minute}:${second}`
+    }
+
     const applabList = computed(() => {
       console.log('props.dataType', props.dataType)
       return applabListAll.value
@@ -113,6 +134,10 @@ export default {
             const releaseDataA = a.created
             const releaseDataB = b.created
             return releaseDataA > releaseDataB ? -1 : 1
+          } else if (props.orderType === 'downloads') {
+            const downloadsA = Number(a.downloads)
+            const downloadsB = Number(b.downloads)
+            return downloadsA > downloadsB ? -1 : 1
           }
           return 0
         })
@@ -128,7 +153,7 @@ export default {
       onCardClicked: (item: SideQuestApplabItem) => {
         window.open(item.oculus_url, '_blank')
       },
-      rr
+      timeStampToDate
     }
   }
 }
